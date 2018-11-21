@@ -79,7 +79,7 @@ export default class Message extends React.PureComponent {
     if (currentMessage.user.avatar === null) {
       return null;
     }
-    return <Avatar {...avatarProps} />;
+    return this.props.renderAvatar ? this.props.renderAvatar(avatarProps) : <Avatar {...avatarProps} />;
   }
 
   render() {
@@ -90,19 +90,19 @@ export default class Message extends React.PureComponent {
         {this.props.currentMessage.system ? (
           this.renderSystemMessage()
         ) : (
-          <View
-            style={[
-              styles[this.props.position].container,
-              { marginBottom: sameUser ? 2 : 10 },
-              !this.props.inverted && { marginBottom: 2 },
-              this.props.containerStyle[this.props.position],
-            ]}
-          >
-            {this.props.position === 'left' ? this.renderAvatar() : null}
-            {this.renderBubble()}
-            {this.props.position === 'right' ? this.renderAvatar() : null}
-          </View>
-        )}
+            <View
+              style={[
+                styles[this.props.position].container,
+                { marginBottom: sameUser ? 2 : 10 },
+                !this.props.inverted && { marginBottom: 2 },
+                this.props.containerStyle[this.props.position],
+              ]}
+            >
+              {this.props.position === 'left' ? this.renderAvatar() : null}
+              {this.renderBubble()}
+              {this.props.position === 'right' ? this.renderAvatar() : null}
+            </View>
+          )}
       </View>
     );
   }

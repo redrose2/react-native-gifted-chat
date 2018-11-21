@@ -11,6 +11,7 @@ export default function MessageImage({
   imageProps,
   imageStyle,
   currentMessage,
+  children,
 }) {
   return (
     <View style={[styles.container, containerStyle]}>
@@ -20,11 +21,13 @@ export default function MessageImage({
         }}
         {...lightboxProps}
       >
-        <Image
-          {...imageProps}
-          style={[styles.image, imageStyle]}
-          source={{ uri: currentMessage.image }}
-        />
+        {children ||
+          <Image
+            {...imageProps}
+            style={[styles.image, imageStyle]}
+            source={{ uri: currentMessage.image }}
+          />
+        }
       </Lightbox>
     </View>
   );
@@ -41,7 +44,7 @@ const styles = StyleSheet.create({
   },
   imageActive: {
     flex: 1,
-    resizeMode: 'contain',
+    // resizeMode: 'contain',
   },
 });
 
