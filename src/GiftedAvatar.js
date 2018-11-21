@@ -35,7 +35,9 @@ export default class GiftedAvatar extends React.PureComponent {
   }
 
   renderAvatar() {
-    if (typeof this.props.user.avatar === 'function') {
+    if (this.props.children) {
+      return this.props.children;
+    } else if (typeof this.props.user.avatar === 'function') {
       return this.props.user.avatar();
     } else if (typeof this.props.user.avatar === 'string') {
       return (

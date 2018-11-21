@@ -38,18 +38,16 @@ const styles = {
 export default class Avatar extends React.PureComponent {
 
   renderAvatar() {
-    if (this.props.renderAvatar) {
-      const { renderAvatar, ...avatarProps } = this.props;
-      return this.props.renderAvatar(avatarProps);
-    }
+    const avatarStyle = StyleSheet.flatten([
+      styles[this.props.position].image,
+      this.props.imageStyle[this.props.position],
+    ]);
     return (
       <GiftedAvatar
-        avatarStyle={StyleSheet.flatten([
-          styles[this.props.position].image,
-          this.props.imageStyle[this.props.position],
-        ])}
+        avatarStyle={avatarStyle}
         user={this.props.currentMessage.user}
         onPress={() => this.props.onPressAvatar && this.props.onPressAvatar(this.props.currentMessage.user)}
+        children={typeof this.props.children === 'function' ? this.props.children({ style: avatarStyle }) : this.props.children}
       />
     );
   }
@@ -106,7 +104,7 @@ Avatar.defaultProps = {
   nextMessage: {},
   containerStyle: {},
   imageStyle: {},
-  onPressAvatar: () => {},
+  onPressAvatar: () => { },
 };
 
 Avatar.propTypes = {
