@@ -134,7 +134,7 @@ export default class Bubble extends React.Component {
     const isSameThread = isSameUser(this.props.currentMessage, this.props.previousMessage)
       && isSameDay(this.props.currentMessage, this.props.previousMessage);
 
-    const messageHeader = isSameThread ? null : (
+    const messageHeader = false && isSameThread ? null : (
       <View style={styles.headerView}>
         {this.renderUsername()}
         {this.renderTime()}
