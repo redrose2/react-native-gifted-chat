@@ -56,10 +56,13 @@ export default class Message extends React.Component {
 
     const avatarProps = this.getInnerComponentProps();
     return (
-      <Avatar
-        {...avatarProps}
-        imageStyle={{ left: [styles.slackAvatar, avatarProps.imageStyle, extraStyle] }}
-      />
+      this.props.renderAvatar ?
+        this.props.renderAvatar(avatarProps)
+        :
+        <Avatar
+          {...avatarProps}
+          imageStyle={{ left: [styles.slackAvatar, avatarProps.imageStyle, extraStyle] }}
+        />
     );
   }
 
