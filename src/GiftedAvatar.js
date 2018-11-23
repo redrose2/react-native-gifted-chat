@@ -71,7 +71,7 @@ export default class GiftedAvatar extends React.PureComponent {
         />
       );
     }
-    if (this.props.user.avatar) {
+    if (!this.props.useInitialAvatar || this.props.user.avatar) {
       return (
         <TouchableOpacity
           disabled={!this.props.onPress}

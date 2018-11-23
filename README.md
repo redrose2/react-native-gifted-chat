@@ -174,6 +174,7 @@ e.g. System Message
 * **`isLoadingEarlier`** _(Bool)_ - Display an `ActivityIndicator` when loading earlier messages
 * **`renderLoading`** _(Function)_ - Render a loading view when initializing
 * **`renderLoadEarlier`** _(Function)_ - Custom "Load earlier messages" button
+* **`useInitialAvatar`** _(Bool)_ - Whether to use user's name as avatar if not exists; default is `true`
 * **`renderAvatar`** _(Function)_ - Custom message avatar; set to `null` to not render any avatar for the message
 * **`showUserAvatar`** _(Bool)_ - Whether to render an avatar for the current user; default is `false`, only show avatars for other users
 * **`showAvatarForEveryMessage`** _(Bool)_ - When false, avatars will only be displayed when a consecutive message is from the same user on the same day; default is `false`
