@@ -52,7 +52,8 @@ export default class Bubble extends React.Component {
         <MessageText
           {...messageTextProps}
           textStyle={{
-            left: [styles.standardFont, styles.slackMessageText, messageTextProps.textStyle, messageTextStyle],
+            left: [styles.standardFont, conditionalStyles[this.props.position].slackMessageText, messageTextProps.textStyle, messageTextStyle],
+            right: [styles.standardFont, conditionalStyles[this.props.position].slackMessageText, messageTextProps.textStyle, messageTextStyle],
           }}
         />
       );
@@ -115,8 +116,11 @@ export default class Bubble extends React.Component {
       return (
         <Time
           {...timeProps}
-          containerStyle={{ left: [styles.timeContainer] }}
-          textStyle={{ left: [styles.standardFont, styles.headerItem, styles.time, timeProps.textStyle] }}
+          containerStyle={{ left: [styles.timeContainer], right: [styles.timeContainer] }}
+          textStyle={{
+            left: [styles.standardFont, styles.headerItem, styles.time, timeProps.textStyle],
+            right: [styles.standardFont, styles.headerItem, styles.time, timeProps.textStyle]
+          }}
         />
       );
     }
@@ -135,15 +139,15 @@ export default class Bubble extends React.Component {
       && isSameDay(this.props.currentMessage, this.props.previousMessage);
 
     const messageHeader = false && isSameThread ? null : (
-      <View style={styles.headerView}>
-        {this.renderUsername()}
+      <View style={conditionalStyles[this.props.position].headerView}>
+        {this.props.position === 'left' && this.renderUsername()}
         {this.renderTime()}
         {this.renderTicks()}
       </View>
     );
 
     return (
-      <View style={[styles.container, this.props.containerStyle]}>
+      <View style={[conditionalStyles[this.props.position].container, this.props.containerStyle]}>
         <TouchableOpacity
           onLongPress={this.onLongPress}
           accessibilityTraits="text"
@@ -151,15 +155,17 @@ export default class Bubble extends React.Component {
         >
           <View
             style={[
-              styles.wrapper,
+              conditionalStyles[this.props.position].wrapper,
               this.props.wrapperStyle,
             ]}
           >
             <View>
               {this.renderCustomView()}
               {messageHeader}
-              {this.renderMessageImage()}
-              {this.renderMessageText()}
+              <View>
+                {this.renderMessageImage()}
+                {this.renderMessageText()}
+              </View>
             </View>
           </View>
         </TouchableOpacity>
@@ -169,45 +175,74 @@ export default class Bubble extends React.Component {
 
 }
 
-// Note: Everything is forced to be "left" positioned with this component.
-// The "right" position is only used in the default Bubble.
+const conditionalStyles = {
+  left: StyleSheet.create({
+    slackMessageText: {
+      marginLeft: 0,
+      marginRight: 0,
+    },
+    container: {
+      flex: 1,
+      alignItems: 'flex-start',
+    },
+    wrapper: {
+      marginRight: 60,
+      minHeight: 20,
+      justifyContent: 'flex-end',
+    },
+    headerView: {
+      // Try to align it better with the avatar on Android.
+      marginTop: Platform.OS === 'android' ? -2 : 0,
+      flexDirection: 'row',
+      alignItems: 'baseline',
+    },
+  }),
+  right: StyleSheet.create({
+    slackMessageText: {
+      marginLeft: 0,
+      marginRight: 0,
+      textAlign: 'right',
+    },
+    container: {
+      flex: 1,
+      alignItems: 'flex-end',
+    },
+    wrapper: {
+      marginLeft: 60,
+      minHeight: 20,
+      justifyContent: 'flex-end',
+    },
+    headerView: {
+      // Try to align it better with the avatar on Android.
+      marginTop: Platform.OS === 'android' ? -2 : 0,
+      flexDirection: 'row',
+      alignItems: 'baseline',
+      justifyContent: 'flex-end',
+    },
+  }),
+};
+
 const styles = StyleSheet.create({
   standardFont: {
+    color: 'black',
     fontSize: 15,
-  },
-  slackMessageText: {
-    marginLeft: 0,
-    marginRight: 0,
-  },
-  container: {
-    flex: 1,
-    alignItems: 'flex-start',
-  },
-  wrapper: {
-    marginRight: 60,
-    minHeight: 20,
-    justifyContent: 'flex-end',
   },
   username: {
     fontWeight: 'bold',
-  },
-  time: {
-    textAlign: 'left',
-    fontSize: 12,
+    marginRight: 10,
   },
   timeContainer: {
     marginLeft: 0,
     marginRight: 0,
     marginBottom: 0,
   },
-  headerItem: {
-    marginRight: 10,
+  time: {
+    color: 'gray',
+    textAlign: 'left',
+    fontSize: 12,
   },
-  headerView: {
-    // Try to align it better with the avatar on Android.
-    marginTop: Platform.OS === 'android' ? -2 : 0,
-    flexDirection: 'row',
-    alignItems: 'baseline',
+  headerItem: {
+    marginRight: 0,
   },
   /* eslint-disable react-native/no-color-literals */
   tick: {
@@ -236,6 +271,7 @@ Bubble.defaultProps = {
   renderMessageText: null,
   renderCustomView: null,
   renderTime: null,
+  position: 'left',
   currentMessage: {
     text: null,
     createdAt: null,
@@ -259,6 +295,7 @@ Bubble.propTypes = {
   renderUsername: PropTypes.func,
   renderTime: PropTypes.func,
   renderTicks: PropTypes.func,
+  position: PropTypes.oneOf(['left', 'right']),
   currentMessage: PropTypes.object,
   nextMessage: PropTypes.object,
   previousMessage: PropTypes.object,
