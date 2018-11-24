@@ -47,6 +47,7 @@ export default class Avatar extends React.PureComponent {
         avatarStyle={avatarStyle}
         user={this.props.currentMessage.user}
         onPress={() => this.props.onPressAvatar && this.props.onPressAvatar(this.props.currentMessage.user)}
+        onLongPress={() => this.props.onLongPressAvatar && this.props.onLongPressAvatar(this.props.currentMessage.user)}
         children={typeof this.props.children === 'function' ? this.props.children({ style: avatarStyle }) : this.props.children}
       />
     );
@@ -105,6 +106,7 @@ Avatar.defaultProps = {
   containerStyle: {},
   imageStyle: {},
   onPressAvatar: () => { },
+  onLongPressAvatar: () => { },
 };
 
 Avatar.propTypes = {
@@ -115,6 +117,7 @@ Avatar.propTypes = {
   previousMessage: PropTypes.object,
   nextMessage: PropTypes.object,
   onPressAvatar: PropTypes.func,
+  onLongPressAvatar: PropTypes.func,
   renderAvatar: PropTypes.func,
   containerStyle: PropTypes.shape({
     left: ViewPropTypes.style,

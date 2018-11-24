@@ -179,6 +179,7 @@ e.g. System Message
 * **`showUserAvatar`** _(Bool)_ - Whether to render an avatar for the current user; default is `false`, only show avatars for other users
 * **`showAvatarForEveryMessage`** _(Bool)_ - When false, avatars will only be displayed when a consecutive message is from the same user on the same day; default is `false`
 * **`onPressAvatar`** _(Function(`user`))_ - Callback when a message avatar is tapped
+* **`onLongPressAvatar`** _(Function(`user`))_ - Callback when a message avatar is long tapped
 * **`renderAvatarOnTop`** _(Bool)_ - Render the message avatar at the top of consecutive messages, rather than the bottom; default is `false`
 * **`renderBubble`** _(Function)_ - Custom message bubble
 * **`renderSystemMessage`** _(Function)_ - Custom system message

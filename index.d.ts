@@ -48,6 +48,7 @@ interface AvatarProps<TMessage extends IMessage = IMessage> {
   previousMessage: TMessage;
   nextMessage: TMessage;
   onPressAvatar(): void;
+  onLongPressAvatar(): void;
   renderAvatar(props: AvatarProps<TMessage>): JSX.Element;
   containerStyle: {
     left: any;
@@ -170,6 +171,8 @@ export interface GiftedChatProps<TMessage extends IMessage = IMessage> {
   showAvatarForEveryMessage?: boolean;
   /* Callback when a message avatar is tapped */
   onPressAvatar?(user: User): void;
+  /* Callback when a message avatar is long tapped */
+  onLongPressAvatar?(user: User): void;
   /* Render the message avatar at the top of consecutive messages, rather than the bottom; default is false */
   renderAvatarOnTop?: boolean;
   /* Custom message bubble */
