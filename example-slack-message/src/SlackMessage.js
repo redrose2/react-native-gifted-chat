@@ -19,7 +19,6 @@ export default class Message extends React.Component {
     const { containerStyle, ...props } = this.props;
     return {
       ...props,
-      position: 'left',
       isSameUser,
       isSameDay,
     };
@@ -79,8 +78,9 @@ export default class Message extends React.Component {
             this.props.containerStyle,
           ]}
         >
-          {this.renderAvatar()}
+          {this.props.position === 'left' && this.renderAvatar()}
           {this.renderBubble()}
+          {this.props.position === 'right' && this.renderAvatar()}
         </View>
       </View>
     );
@@ -93,8 +93,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-end',
     justifyContent: 'flex-start',
-    marginLeft: 8,
-    marginRight: 0,
+    marginHorizontal: 10,
   },
   slackAvatar: {
     // The bottom should roughly line up with the first line of message text.
@@ -108,6 +107,7 @@ Message.defaultProps = {
   renderAvatar: undefined,
   renderBubble: null,
   renderDay: null,
+  position: 'left',
   currentMessage: {},
   nextMessage: {},
   previousMessage: {},
@@ -119,6 +119,7 @@ Message.propTypes = {
   renderAvatar: PropTypes.func,
   renderBubble: PropTypes.func,
   renderDay: PropTypes.func,
+  position: PropTypes.oneOf(['left', 'right']),
   currentMessage: PropTypes.object,
   nextMessage: PropTypes.object,
   previousMessage: PropTypes.object,
