@@ -74,11 +74,17 @@ export default class GiftedAvatar extends React.PureComponent {
     if (!this.props.useInitialAvatar || this.props.user.avatar) {
       return (
         <TouchableOpacity
-          disabled={!this.props.onPress}
+          disabled={!this.props.onPress && !this.props.onLongPress}
           onPress={() => {
             const { onPress, ...other } = this.props;
             if (this.props.onPress) {
               this.props.onPress(other);
+            }
+          }}
+          onLongPress={() => {
+            const { onLongPress, ...other } = this.props;
+            if (this.props.onLongPress) {
+              this.props.onLongPress(other);
             }
           }}
           accessibilityTraits="image"
@@ -92,11 +98,17 @@ export default class GiftedAvatar extends React.PureComponent {
 
     return (
       <TouchableOpacity
-        disabled={!this.props.onPress}
+        disabled={!this.props.onPress && !this.props.onLongPress}
         onPress={() => {
           const { onPress, ...other } = this.props;
           if (this.props.onPress) {
             this.props.onPress(other);
+          }
+        }}
+        onLongPress={() => {
+          const { onLongPress, ...other } = this.props;
+          if (this.props.onLongPress) {
+            this.props.onLongPress(other);
           }
         }}
         style={[styles.avatarStyle, { backgroundColor: this.avatarColor }, this.props.avatarStyle]}
@@ -133,6 +145,7 @@ GiftedAvatar.defaultProps = {
     avatar: null,
   },
   onPress: null,
+  onLongPress: null,
   avatarStyle: {},
   textStyle: {},
 };
@@ -140,6 +153,7 @@ GiftedAvatar.defaultProps = {
 GiftedAvatar.propTypes = {
   user: PropTypes.object,
   onPress: PropTypes.func,
+  onLongPress: PropTypes.func,
   avatarStyle: Image.propTypes.style,
   textStyle: Text.propTypes.style,
 };
