@@ -5,32 +5,48 @@ import React from 'react';
 import { Image, StyleSheet, View, ViewPropTypes } from 'react-native';
 import Lightbox from 'react-native-lightbox';
 
-export default function MessageImage({
-  containerStyle,
-  lightboxProps,
-  imageProps,
-  imageStyle,
-  currentMessage,
-  children,
-}) {
-  return (
-    <View style={[styles.container, containerStyle]}>
-      <Lightbox
-        activeProps={{
-          style: styles.imageActive,
-        }}
-        {...lightboxProps}
-      >
-        {children ||
-          <Image
-            {...imageProps}
-            style={[styles.image, imageStyle]}
-            source={{ uri: currentMessage.image }}
-          />
-        }
-      </Lightbox>
-    </View>
-  );
+export default class MessageImage extends React.PureComponent {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isOpened: false,
+    };
+  }
+
+  render() {
+    const {
+      containerStyle,
+      lightboxProps,
+      imageProps,
+      imageStyle,
+      currentMessage,
+      children,
+    } = this.props;
+    return (
+      <View style={[styles.container, containerStyle]}>
+        <Lightbox
+          activeProps={{
+            style: styles.imageActive,
+          }}
+          {...lightboxProps}
+          onOpen={() => this.setState({ isOpened: true })}
+          onClose={() => this.setState({ isOpened: false })}
+        >
+          {children ?
+            (typeof children === 'function' ? children({ isOpened: this.state.isOpened }) : children)
+            :
+            <Image
+              {...imageProps}
+              style={[styles.image, imageStyle]}
+              source={{ uri: currentMessage.image }}
+            />
+          }
+        </Lightbox>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
