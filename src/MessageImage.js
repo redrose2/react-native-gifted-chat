@@ -31,8 +31,8 @@ export default class MessageImage extends React.PureComponent {
             style: styles.imageActive,
           }}
           {...lightboxProps}
-          onOpen={() => this.setState({ isOpened: true })}
-          onClose={() => this.setState({ isOpened: false })}
+          didOpen={() => this.setState({ isOpened: true })}
+          willClose={() => this.setState({ isOpened: false })}
         >
           {children ?
             (typeof children === 'function' ? children({ isOpened: this.state.isOpened }) : children)
