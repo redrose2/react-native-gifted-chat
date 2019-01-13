@@ -10,6 +10,7 @@ import {
 
 import { Avatar, Day, utils } from 'react-native-gifted-chat';
 import Bubble from './SlackBubble';
+import SystemMessage from '../../src/SystemMessage'
 
 const { isSameUser, isSameDay } = utils;
 
@@ -43,6 +44,14 @@ export default class Message extends React.Component {
     return <Bubble {...bubbleProps} />;
   }
 
+  renderSystemMessage() {
+    const systemMessageProps = this.getInnerComponentProps();
+    if (this.props.renderSystemMessage) {
+      return this.props.renderSystemMessage(systemMessageProps);
+    }
+    return <SystemMessage {...systemMessageProps} />;
+  }
+
   renderAvatar() {
     let extraStyle;
     if (
@@ -71,17 +80,21 @@ export default class Message extends React.Component {
     return (
       <View>
         {this.renderDay()}
-        <View
-          style={[
-            styles.container,
-            { marginBottom },
-            this.props.containerStyle,
-          ]}
-        >
-          {this.props.position === 'left' && this.renderAvatar()}
-          {this.renderBubble()}
-          {this.props.position === 'right' && this.renderAvatar()}
-        </View>
+        {this.props.currentMessage.system ? (
+          this.renderSystemMessage()
+        ) : (
+            <View
+              style={[
+                styles.container,
+                { marginBottom },
+                this.props.containerStyle,
+              ]}
+            >
+              {this.props.position === 'left' && this.renderAvatar()}
+              {this.renderBubble()}
+              {this.props.position === 'right' && this.renderAvatar()}
+            </View>
+          )}
       </View>
     );
   }
