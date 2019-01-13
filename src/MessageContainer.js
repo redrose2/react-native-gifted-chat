@@ -116,6 +116,8 @@ export default class MessageContainer extends React.PureComponent {
     return <View style={styles.headerWrapper}>{this.renderLoadEarlier()}</View>;
   }
 
+  keyExtractor = (item) => `${item._id}`
+
   render() {
     if (this.props.messages.length === 0) {
       return <View style={styles.container} />;
@@ -124,7 +126,8 @@ export default class MessageContainer extends React.PureComponent {
       <View style={styles.container}>
         <FlatList
           ref={(ref) => (this.flatListRef = ref)}
-          keyExtractor={(item) => `${item._id}`}
+          extraData={this.props.extraData}
+          keyExtractor={this.keyExtractor}
           enableEmptySections
           automaticallyAdjustContentInsets={false}
           inverted={this.props.inverted}
@@ -168,6 +171,7 @@ MessageContainer.defaultProps = {
   loadEarlier: false,
   listViewProps: {},
   invertibleScrollViewProps: {}, // TODO: support or not?
+  extraData: null,
 };
 
 MessageContainer.propTypes = {
@@ -181,4 +185,5 @@ MessageContainer.propTypes = {
   inverted: PropTypes.bool,
   loadEarlier: PropTypes.bool,
   invertibleScrollViewProps: PropTypes.object, // TODO: support or not?
+  extraData: PropTypes.object,
 };
